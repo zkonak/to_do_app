@@ -13,23 +13,23 @@
 <body>
     <h1>Les Listes des Tâches</h1>
     <form action="/task" method="POST">
-        <label for="name">Name:</label>
+        <label for="name">Le Nom de la Liste des Tâches </label>
         <input type="text" required name="nameList" />
-        <input type="submit" />
+        <input type="submit" id="buttonSubmit" value="Ajouter" />
 
     </form>
 
 
-    <ul>
+    <ol>
         <%todolist.forEach((tache) => {%>
             <li>
                 <a href="/task/<%= tache.id %>">
-                    <%= tache.id %>.
-                        <%= tache.name %>
+
+                    <%= tache.name %>
                 </a>
             </li>
             <%})%>
-    </ul>
+    </ol>
 </body>
 
 </html>

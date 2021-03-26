@@ -109,3 +109,22 @@ exports.deleteTask = (request, response) => {
     });
 
 }
+
+exports.updateStatus = (request, response) => {
+
+
+    const { id } = request.params;
+
+    console.log("listid:" + request.params.list_id + "id" + request.params.id);
+
+    todolist.updateStatus(request.body, id, (error, tasks) => {
+        if (error) {
+            response.send(error.message);
+        }
+
+
+        response.redirect("/task/" + request.params.list_id);
+
+    });
+
+}

@@ -16,6 +16,8 @@ router.post("/addTask/:list_id", todoappController.addTask);
 //modifier la description d'une tâche
 router.post("/updateTask/:list_id", todoappController.updateTask);
 //supprimer une tâche d'une liste
-router.post("/deleteTask/:id/:list_id", todoappController.deleteTask);
+router.get("/deleteTask/:id/:list_id", todoappController.deleteTask);
 
+//modifier la status d'une tâche
+router.post("/updateStatus/:id/:list_id", todoappController.updateStatus);
 module.exports = router;

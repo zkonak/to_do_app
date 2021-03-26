@@ -124,6 +124,26 @@ class ToDoList {
 
 
 
+    static updateStatus(requestBody, id, callback) {
+        let status = 0;
+        if (requestBody.status == 1) {
+            status = 1;
+        }
+        var queryUpdate = ` update task set status=${status}  where id=${id} `;
+        console.log(queryUpdate);
+        db.query(queryUpdate, (error, result) => {
+            if (error) {
+                console.log(error);
+                callback(error, null);
+                return;
+            }
+
+            callback(null, result);
+        });
+    }
+
+
+
 }
 
 module.exports = ToDoList;

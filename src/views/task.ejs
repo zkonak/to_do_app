@@ -6,6 +6,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Liste des Tâches</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/style.css'>
     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src='main.js'></script> -->
 </head>
@@ -16,25 +17,46 @@
             <%=tasks[0].list_name%>
     </h1>
     <form action="/addTask/<%=tasks[0].list_id%>" method="POST">
-        <label for="name">Name:</label>
+        <label for="name">Nom de Tâche</label>
         <input type="text" required name="name" />
-        <input type="submit" /> <input type="hidden" value=<%=tasks[0].list_id%> name="to_do_id">
+        <input type="submit" id="buttonSubmit" value="Enregistrer" /> <input type="hidden" value=<%=tasks[0].list_id%> name="to_do_id">
 
     </form>
-    <%if (tasks.length > 0) { %>
+    <table id="tasks">
+
+        <%if (tasks.length > 0) { %>
+            <tr>
 
 
-        <ul>
-            <%tasks.forEach((task) => {%>
-                <li>
-                    <a href="/taskDetail/<%= task.id %>">
+                <%tasks.forEach((task) => {%>
+                    <td>
+                        <form method="POST" action="/updateStatus/<%= task.id %>/<%=tasks[0].list_id%>">
 
-                        <%= task.name %>
-                    </a>
-                </li>
-                <%})%>
-        </ul>
-        <% } %>
+                            <% var checked=""; if(task.status==1) checked="checked" %>
+                                <input type="checkbox" onchange="this.form.submit()" id="check" value="1" name="status" <%=checked %> >
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/taskDetail/<%= task.id %>">
+
+                            <%= task.name %>
+                        </a>
+                    </td>
+                    <td>
+
+                        <a href="/taskDetail/<%= task.id %>" id="buttonSubmit" class="buttons">Modifier</a>
+                    </td>
+                    <td>
+                        <a href="/deleteTask/<%= task.id %>/<%= task.to_do_id %>" id="buttonSubmit" class="buttons">Supprimer</a>
+                    </td>
+
+            </tr>
+
+            <%})%>
+
+
+                <% } %>
+    </table>
 </body>
 
 </html>
