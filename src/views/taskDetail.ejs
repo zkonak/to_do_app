@@ -14,13 +14,13 @@
     <h1>
         <%= taskDetail.name %>
     </h1>
-    <form action="/updateTask/ <%= taskDetail.id %>" method="POST">
+    <form action="/updateTask/<%= taskDetail.to_do_id %>" method="POST">
         <table>
             <tr>
 
                 <td>Tache ID</td>
-                <td name="id">
-                    <%= taskDetail.id %>
+                <td>
+                    <input type="text" value="<%= taskDetail.id%>" name="task_id">
                 </td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@
 
                 <td>Nom</td>
                 <td>
-                    <input type="text" value=" <%= taskDetail.name %>" name="name">
+                    <input type="text" value="<%= taskDetail.name %>" name="name">
 
                 </td>
             </tr>
@@ -43,25 +43,28 @@
             <tr>
                 <td>Description</td>
                 <td>
-                    <textarea name="description">  <%= taskDetail.description %> ></textarea>
+                    <textarea name="description"><%= taskDetail.description %></textarea>
 
                 </td>
             </tr>
             <tr>
                 <td>Status</td>
                 <td>
+                    <% var checked=""; if(taskDetail.status==1) checked="checked" %>
 
-                    <input type="checkbox" name="status" value=" <%= taskDetail.status %>" checked="true">
+                        <input type="checkbox" value="1" name="status" <%=checked %> >
 
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="submit" value="Enregistrer" name="Enregistrer">
+                    <input type="submit" value="Enregistrer" name="save">
+                    <button formaction="/deleteTask/<%= taskDetail.id %>/<%= taskDetail.to_do_id %>" formmethod="POST">Supprimer</button>
                 </td>
             </tr>
         </table>
     </form>
+
 
 </body>
 

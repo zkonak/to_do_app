@@ -1,34 +1,35 @@
 const { response } = require("express");
 const todolist = require("../models/todolist");
 
+//consulter la liste des listes de tâches
 exports.findAll = (request, response) => {
-    //recuperer les liste de taches
-    todolist.getAll((error, todolist) => {
-        if (error) {
-            response.send(error.message);
-        }
 
-        //create html page
-        response.render("home.ejs", { todolist });
+        todolist.getAll((error, todolist) => {
+            if (error) {
+                response.send(error.message);
+            }
 
-        //return listedetaches;
-    });
-}
+            //create html page
+            response.render("home.ejs", { todolist });
 
+
+        });
+    }
+    //consulter une liste des tâches en particulier pour afficher les différentes tâches
 exports.findTask = (request, response) => {
-    // des taches
-    const { id } = request.params;
-    todolist.getTasks(id, (error, tasks) => {
-        if (error) {
-            response.send(error.message);
-        }
-        response.render("task.ejs", { tasks });
+
+        const { id } = request.params;
+        todolist.getTasks(id, (error, tasks) => {
+            if (error) {
+                response.send(error.message);
+            }
+            response.render("task.ejs", { tasks });
 
 
-    });
+        });
 
-}
-
+    }
+    //créer une nouvelle liste de tâches
 exports.addTodoList = (request, response) => {
     // des taches
     console.log(request.body);
@@ -44,7 +45,7 @@ exports.addTodoList = (request, response) => {
 
 }
 
-
+// le détail d'une tâche (date de création, description)
 exports.findTaskDetail = (request, response) => {
     // des taches
     const { id } = request.params;
@@ -60,34 +61,51 @@ exports.findTaskDetail = (request, response) => {
 
 }
 
-
+//modifier la description d'une tâche
 exports.updateTask = (request, response) => {
 
 
+        const { list_id } = request.params;
+        console.log("list_id=" + list_id);
+        todolist.updateTask(request.body, list_id, (error, tasks) => {
+            if (error) {
+                response.send(error.message);
+            }
+
+            response.redirect("/task/" + list_id);
+
+        });
+
+    }
+    // créer une nouvelle tâches dans une liste de tâches donnée
+exports.addTask = (request, response) => {
+        // des taches
+        const { list_id } = request.params;
+
+        todolist.addTask(request.body, list_id, (error, tasks) => {
+            if (error) {
+                response.send(error.message);
+            }
+
+            response.redirect("/task/" + list_id);
+
+        })
+
+
+    }
+    //supprimer une tâche d'une liste
+exports.deleteTask = (request, response) => {
+
+
     const { id } = request.params;
-    todolist.updateTask(request.body, id, (error, tasks) => {
+
+    todolist.deleteTask(request.body, id, (error, tasks) => {
         if (error) {
             response.send(error.message);
         }
 
-        response.redirect("/task/" + id);
+        response.redirect("/task/" + request.params.list_id);
 
     });
-
-}
-
-exports.addTask = (request, response) => {
-    // des taches
-    const { list_id } = request.params;
-    console.log(request.body);
-    todolist.addTask(request.body, list_id, (error, tasks) => {
-        if (error) {
-            response.send(error.message);
-        }
-
-        response.redirect("/task/" + list_id);
-
-    })
-
 
 }
